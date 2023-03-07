@@ -22,14 +22,6 @@ const usersPost = async(req, res = response) => {
         role
     });
 
-    // Validar el email
-    const emailExists = await Usuario.findOne({correo});
-    if (emailExists) {
-        return res.status(400).json({
-            msg : 'Ya existe este correo'
-        })
-    }
-
     // Encriptar la contraseña
     const salt = bcryptjs.genSaltSync();
     usuario.password = bcryptjs.hashSync(password, salt);
