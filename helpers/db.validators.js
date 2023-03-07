@@ -16,8 +16,15 @@ const emailInUse = async(email = '') => {
         throw new Error(`El email ${email} ya existe`)
     }
 }
+const userExits = async(id) => {
+    const existsUser = await Usuario.findById(id);
+    if (!existsUser) {
+        throw new Error(`El id ${id} no existe`)
+    }
+}
 
 module.exports = {
     isValidRole,
-    emailInUse
+    emailInUse,
+    userExits
 }

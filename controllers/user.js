@@ -33,11 +33,22 @@ const usersPost = async(req, res = response) => {
         usuario
     })
 }
-const usersPut = (req, res = response) => {
-    const id = req.params.id;
+const usersPut = async(req, res = response) => {
+    const { id } = req.params;
+    const { _id, password, google, email, ...rest } = req.body;
+
+    // Validar contra BBDDD
+
+    if (password) {
+        const salt = bcryptjs.genSaltSync();
+        rest.password = bcryptjs.hashSync(password, salt);
+    }
+
+    const usuario = await Usuario.findByIdAndUpdate(id, rest);
+
     res.json({
         msg: 'Usuarios API controlador',
-        id
+        usuario
     })
 }
 const usersPatch = (req, res = response) => {

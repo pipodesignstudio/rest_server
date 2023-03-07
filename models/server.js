@@ -17,7 +17,6 @@ class Server {
         // Rutas de la app
         this.routes();
 
-
     }
 
     async connectDB() {
