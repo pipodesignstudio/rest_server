@@ -15,7 +15,7 @@ const usersGet = async(req = request, res = response) => {
         .limit(Number(limit))
     ])
 
-    res.json(total, usuarios);
+    res.json({ total, usuarios });
 }
 const usersPost = async(req, res = response) => {
     const { name, email, password, role } = req.body;
