@@ -64,14 +64,20 @@ const usersDelete = async(req, res = response) => {
     const { id } = req.params;
     // Borrado físico
     // const usuario = await Usuario.findByIdAndDelete(id);
+    const usuario = await Usuario.findById(id);
+    if (!usuario.status) {
+        return res.json(usuario);
+    }  else {
+        usuario.findByIdAndUpdate(id, {
+            status: false
+        });
+    
+        res.json(
+            usuario
+        )
+    }
 
-    const usuario = await Usuario.findByIdAndUpdate(id, {
-        status: false
-    });
-
-    res.json(
-        usuario
-    )
+    
 }
 module.exports = {
     usersGet,
