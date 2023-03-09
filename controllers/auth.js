@@ -42,6 +42,18 @@ const loginController = async(req, res = response) => {
 
 }
 
+
+const googleSignIn = async(req, res = response) => {
+
+    const {id_token} = req.body;
+
+    return res.status(200).json({
+        msg: 'Tenemos id de google',
+        id_token
+    });
+}
+
 module.exports = {
-    loginController
+    loginController,
+    googleSignIn
 }
