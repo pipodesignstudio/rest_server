@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,45 +9,54 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.4/dist/css/uikit.min.css" />
 
 </head>
+
 <body>
-   <section class="uk-section-secondary" uk-height-viewport>
+    <section class="uk-section-secondary" uk-height-viewport>
         <div class="uk-flex uk-flex-center uk-flex-middle uk-child-width-auto" uk-grid uk-height-viewport>
             <div>
-                <div id="g_id_onload"
-                    data-client_id="64848370802-e4fnhktj35bcf8vnd2ueegi5hee22vee.apps.googleusercontent.com"
-                    data-auto_prompt="false">
+                <div id="g_id_onload" data-client_id="64848370802-e4fnhktj35bcf8vnd2ueegi5hee22vee.apps.googleusercontent.com" data-auto_prompt="false">
                 </div>
-            <div class="g_id_signin"
-                data-type="standard"
-                data-size="large"
-                data-theme="outline"
-                data-text="sign_in_with"
-                data-shape="rectangular"
-                data-logo_alignment="left">
+                <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                </div>
             </div>
+            <div>
+                <button id="google_signout" class="uk-button uk-button-danger">Sing out</button>
             </div>
         </div>
-   </section>
+    </section>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.4/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.4/dist/js/uikit-icons.min.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        
         function handleCredentialResponse(response) {
             const body = {
-            id_token: response.credential
-        };
+                id_token: response.credential
+            };
             fetch('http://localhost:9010/api/auth/google', {
-                method: 'POST',
-                headers: {
-                    'Content-Type' : 'application/json'
-                },
-                body: JSON.stringify(body)
-            }).then(resp => resp.json()).then(resp => {
-                console.log(resp)
-            })
-            .catch(console.warn);
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                }).then(resp => resp.json())
+                .then(resp => {
+                    console.log(resp)
+                    localStorage.setItem('email', resp.usuario.correo)
+                })
+                .catch(console.warn);
         }
-      </script>
+
+        const button = document.getElementById('google_signout');
+        button.onclick = () => {
+            console.log(google.accounts.id);
+            google.accounts.id.disableAutoSelect()
+            google.accounts.id.revoke(localStorage.getItem('email'), done => {
+                console.log('consent revoked');
+                localStorage.clear()
+                location.reload()
+            });
+        }
+    </script>
 </body>
+
 </html>
