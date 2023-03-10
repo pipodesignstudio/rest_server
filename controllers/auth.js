@@ -1,6 +1,8 @@
 const { response } = require("express");
-const Usuario = require('../models/user');
 const bcryptjs = require('bcryptjs');
+
+const Usuario = require('../models/user');
+
 const { googleVerify } = require("../helpers/google.verify");
 const { generateJWT } = require("../helpers/create_jwt");
 
@@ -52,11 +54,12 @@ const googleSignIn = async(req, res = response) => {
     console.log(id_token);
 
     try {
-        const { email, name, img } = await googleVerify(id_token);
+        const { name, img, email } = await googleVerify(id_token);
 
         // Validar email
 
         let usuario = await Usuario.findOne({ email });
+        console.log(usuario);
 
         if (!usuario) {
             const data = {
