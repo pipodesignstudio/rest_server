@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createCategory } = require('../controllers/categories');
+const { createCategory, getCtegories, getCategoryByid } = require('../controllers/categories');
+const { categoryExists } = require('../helpers/db.validators');
 const { validateJWT } = require('../middlewares');
 
 const { validarCampos } = require('../middlewares/validar.campos');
@@ -8,12 +9,14 @@ const { validarCampos } = require('../middlewares/validar.campos');
 
 const router = Router();
 
-router.get('/', (req, res) => {
-    res.json('get-id')
-})
-router.get(':id', (req, res) => {
-    res.json('get-id')
-})
+router.get('/', getCtegories);
+
+
+router.get(':id', [
+    check('id', 'No es válido').isMongoId(),
+    check('id').custom(categoryExists),
+    validarCampos
+], getCategoryByid)
 router.post('/', [
     validateJWT,
     check('name', 'El nombre es obligatorio').not().isEmpty(),
