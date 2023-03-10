@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createCategory, getCtegories, getCategoryByid } = require('../controllers/categories');
+const { createCategory, getCtegories, getCategoryByid, updateCategories } = require('../controllers/categories');
 const { categoryExists } = require('../helpers/db.validators');
 const { validateJWT } = require('../middlewares');
 
@@ -23,9 +23,12 @@ router.post('/', [
     validarCampos
 ], createCategory)
 
-router.put('/', (req, res) => {
-    res.json('update')
-})
+router.put('/:id', [
+    validateJWT,
+    check('name', 'Nombre es obligatorio').not().isEmpty(),
+    check('id').custom(categoryExists),
+    validarCampos
+], updateCategories);
 
 router.delete('/', (req, res) => {
     res.json('delete')

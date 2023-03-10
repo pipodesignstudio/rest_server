@@ -46,8 +46,28 @@ const getCategoryByid = async(req, res = response) => {
     res.json(category);
 }
 
+const updateCategories = async(req, res = response) => {
+    const {id} = req.param;
+    const {status, user, ...data} = req.body;
+    
+    data.name = data.name.toUpperCase();
+    data.user = req.user._id;
+
+    const category = await Category.findByIdAndUpdate(id, data, { new: true});
+
+    res.json(category);
+
+}
+
+const deleteCategory = async(req, res = response) => {
+    const {id} = req.params;
+    const deletedCategory = await Categoria.findByIdAndUpdate(id, {status: false} , {new: true});
+    res.json('Categoría borrada');
+
 module.exports = {
     createCategory,
     getCtegories,
-    getCategoryByid
+    getCategoryByid,
+    updateCategories,
+    deleteCategory
 }
