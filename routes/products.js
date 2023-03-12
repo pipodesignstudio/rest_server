@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { createProduct, getProducts, getProductById, updateProduct } = require('../controllers/products');
+const { createProduct, getProducts, getProductById, updateProduct, deleteProduct } = require('../controllers/products');
 const { categoryExists, productExists } = require('../helpers/db.validators');
 const { validateJWT, validarCampos } = require('../middlewares');
 
@@ -35,11 +35,11 @@ router.put('/:id', [
     validarCampos
 ], updateProduct);
 
-// router.delete('/:id', [
-//     validateJWT, 
-//     check('category', 'No es un id válido').isMongoId(), 
-//     check('id').custom(categoryExists),
-// ], deleteProduct)
+router.delete('/:id', [
+    validateJWT,
+    check('category', 'No es un id válido').isMongoId(),
+    check('id').custom(categoryExists),
+], deleteProduct)
 
 
 
