@@ -62,8 +62,8 @@ const updateCategories = async(req, res = response) => {
 const deleteCategory = async(req, res = response) => {
     const {id} = req.params;
     const deletedCategory = await Categoria.findByIdAndUpdate(id, {status: false} , {new: true});
-    res.json('Categoría borrada');
-
+    res.json(deletedCategory);
+}
 module.exports = {
     createCategory,
     getCtegories,
