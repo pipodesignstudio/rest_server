@@ -12,11 +12,13 @@ const router = Router();
 router.get('/', getCtegories);
 
 
-router.get(':id', [
+router.get('/:id', [
     check('id', 'No es válido').isMongoId(),
     check('id').custom(categoryExists),
     validarCampos
 ], getCategoryByid)
+
+
 router.post('/', [
     validateJWT,
     check('name', 'El nombre es obligatorio').not().isEmpty(),

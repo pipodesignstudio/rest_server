@@ -5,23 +5,23 @@ const createProduct = async(req, res = response) => {
 
     const {status, user, ...body} = req.body;
 
-    const productDb = await Product.findOne({name});
+    const productDb = await Product.findOne({name: body.name})
 
     if (productDb) {
         return res.status(400).json({
-            msg: 'El producto ya existe la categoría'
+            msg: 'El producto ya existe la el producto'
         });
     }
 
     const data = {
         ...body,
-        name : body.name.toUpperCase(),
+        name: body.name.toUpperCase(),
         user: req.usuario._id
     }
 
     const product = await new Product(data)
     await product.save();
-    res.status(201).json(categoria);
+    res.status(201).json(product);
 }
 
 const getProducts = async(req, res = response) => {

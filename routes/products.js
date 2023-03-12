@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { createProduct, getProducts, getProductByid, updateProduct } = require('../controllers/products');
+const { createProduct, getProducts, getProductById, updateProduct } = require('../controllers/products');
 const { categoryExists, productExists } = require('../helpers/db.validators');
 const { validateJWT, validarCampos } = require('../middlewares');
 
@@ -12,11 +12,11 @@ const router = Router();
 
 router.get('/', getProducts);
 
-// router.get('/:id',[
-//     check('id', 'No es un id de Mongo válido').isMongoId(),
-//     check('id').custom( productExists ),
-//     validarCampos,
-// ], getProductByid );
+router.get('/:id', [
+    check('id', 'No es válido').isMongoId(),
+    check('id').custom(productExists),
+    validarCampos
+], getProductById)
 
 router.post('/', [
     validateJWT,
