@@ -10,7 +10,7 @@ const router = Router();
 router.post('/', [], uploadFile);
 
 router.put('/:collection/:id', [
-    check('id' , 'El id no es válido').isMongoId(),
+    check('id', 'El id no es válido').isMongoId(),
     check('collection').custom(c => allowedCollections(c, ['users', 'prods'])),
     validarCampos
 ], updatePicture)

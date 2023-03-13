@@ -1,6 +1,6 @@
 const { response } = require("express");
 const { uploadArchivo } = require("../helpers");
-const {Usuario, Product} = require('../models')
+const { Usuario, Product } = require('../models')
 
 const uploadFile = async(req, res = response) => {
 
@@ -18,16 +18,16 @@ const uploadFile = async(req, res = response) => {
         res.json(nombre)
 
     } catch (msg) {
-        res.status(400).json({msg})
+        res.status(400).json({ msg })
     }
-   
-    
+
+
 }
 
 
 const updatePicture = async(req, res = response) => {
 
-    const {collection, id} = req.params;
+    const { id, collection } = req.params;
 
     let model;
 
@@ -40,6 +40,7 @@ const updatePicture = async(req, res = response) => {
                 });
             }
             break;
+
         case 'products':
             model = await Product.findById(id);
             if (!model) {
@@ -48,20 +49,18 @@ const updatePicture = async(req, res = response) => {
                 })
             }
             break;
-    
+
         default:
-            res.status(500).json({msg: 'No hemos validado este caso'})
+            res.status(500).json({ msg: 'No hemos validado este caso' })
     }
 
-
     const name = await uploadArchivo(req.files, undefined, collection);
-    console.log(name);
     model.img = name;
-    await model.save;
+    await model.save();
 
     res.json(model);
 }
- 
+
 module.exports = {
     uploadFile,
     updatePicture
