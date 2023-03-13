@@ -22,7 +22,7 @@ const uploadArchivo = ( files, validExtensions = ['jpg', 'png', 'jpeg', 'csv', '
             if (err) {
                 reject(err);
             }
-    
+        console.log(tempName);
          resolve(tempName);
         }); 
     });

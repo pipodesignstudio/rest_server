@@ -26,7 +26,8 @@ const uploadFile = async(req, res = response) => {
 
 
 const updatePicture = async(req, res = response) => {
-    const {collection, id} = req.body;
+
+    const {collection, id} = req.params;
 
     let model;
 
@@ -36,7 +37,7 @@ const updatePicture = async(req, res = response) => {
             if (!model) {
                 return res.status(400).json({
                     msg: 'No existe el usuario con este Id'
-                })
+                });
             }
             break;
         case 'products':
@@ -54,9 +55,9 @@ const updatePicture = async(req, res = response) => {
 
 
     const name = await uploadArchivo(req.files, undefined, collection);
+    console.log(name);
     model.img = name;
-    await model.save();
-
+    await model.save;
 
     res.json(model);
 }

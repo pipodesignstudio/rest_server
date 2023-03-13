@@ -15,4 +15,5 @@ router.put('/:collection/:id', [
     validarCampos
 ], updatePicture)
 
+
 module.exports = router;

@@ -16,10 +16,12 @@ const ProductSchema = Schema({
         ref: 'Usuario',
         required: true
     },
+
     price: {
         type: Number,
         default: 0
     },
+    img: {type: String},
     category: {
         type: Schema.Types.ObjectId,
         ref: 'Categoria',
