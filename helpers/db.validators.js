@@ -5,6 +5,7 @@ const Role = require('../models/role');
 
 const isValidRole = async(role = '') => {
     const exists = await Role.findOne({ role });
+    console.log(role);
     if (!exists) {
         throw new Error(`El rol ${role} no existe en DB`)
     }
@@ -36,10 +37,20 @@ const productExists = async(id) => {
     }
 }
 
+const allowedCollections = (collection = '', collections = []) => {
+    const included = collections.includes(collection);
+    if(!included) {
+        throw new Error('La colección que quieres actualizar no está permitida');
+    }
+
+    return true;
+}
+
 module.exports = {
     isValidRole,
     emailInUse,
     userExits,
     categoryExists,
-    productExists
+    productExists,
+    allowedCollections
 }
